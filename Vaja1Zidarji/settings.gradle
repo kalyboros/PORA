@@ -1,0 +1,3 @@
+rootProject.name='Zidarji'
+include ':app'
+include ':libDataStructure'
