@@ -2,53 +2,56 @@ package com.example.vaja1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.vaja1lib.Card;
-import com.example.vaja1lib.Deck;
-
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logbtn;
-    Button create;
-    EditText attack;
-    EditText defense;
+    Button logBtn;
+    EditText priimek;
+    EditText mesto;
     EditText name;
-    private Deck deck1;
-    //private Card addCard;
+    Button infoBtn;
+    Button vnosBtn;
+    int deckSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        deck1 = new Deck("prvi");
-        attack = findViewById(R.id.attack);
-        defense = findViewById(R.id.defense);
-        name = findViewById(R.id.name);
+        priimek = findViewById(R.id.Priimek);
+        mesto = findViewById(R.id.Mesto);
+        name = findViewById(R.id.cardName);
 
-        logbtn = (Button) findViewById(R.id.idLog);
-        logbtn.setOnClickListener(new View.OnClickListener(){
+        logBtn = (Button) findViewById(R.id.idLog);
+        logBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view){
-                Log.i("MyActivity", "Stevilo kart v decku:" + deck1.toString());
+                Log.i("MyActivity", "Stevilo kart v decku:" + deckSize);
             }
         });
 
-        create = (Button) findViewById(R.id.idDodaj);
-        create.setOnClickListener(new View.OnClickListener(){
-
+        infoBtn = (Button) findViewById(R.id.btnInfo);
+        infoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                deck1.add(new Card(name.toString(),Integer.parseInt(attack.getText().toString()),Integer.parseInt(defense.getText().toString()),1));
-                name.getText().clear();
-                attack.getText().clear();
-                defense.getText().clear();
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+                startActivityForResult(intent,2);
+            }
+        });
+
+        vnosBtn = (Button) findViewById(R.id.Vnos);
+        vnosBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VnosActivity.class);
+                startActivityForResult(intent,3);
             }
         });
 
@@ -59,4 +62,28 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
+
+    // Call Back method  to get the Message form other Activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        //request code 2 je za izpis informacij o sebi
+        if(requestCode==2)
+        {
+            String imeSet = data.getStringExtra("IME");
+            String priimekSet = data.getStringExtra("PRIIMEK");
+            String mestoSet = data.getStringExtra("MESTO");
+            name.setText(imeSet);
+            priimek.setText(priimekSet);
+            mesto.setText(mestoSet);
+        }
+
+        if(requestCode==3){
+            int stevilo = data.getIntExtra("STEVILO", 0);
+            Toast.makeText(this,String.valueOf(stevilo),Toast.LENGTH_LONG).show();
+            deckSize= deckSize+stevilo;
+        }
+    }
+
 }
