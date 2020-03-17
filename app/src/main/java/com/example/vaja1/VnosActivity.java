@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vaja1lib.Card;
 import com.example.vaja1lib.Deck;
@@ -20,6 +21,7 @@ public class VnosActivity extends AppCompatActivity {
     private Deck deck1;
     Button izhod;
     int counter = 0;
+    Button scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +58,35 @@ public class VnosActivity extends AppCompatActivity {
             }
         });
 
+        scan = (Button) findViewById(R.id.scanBtn);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent intent = new Intent(VnosActivity.this,ScanActivity.class);
+            startActivityForResult(intent,4);
+            }
+        });
+
+    }
+
+    // Call Back method  to get the Message form other Activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==4){
+            String code = data.getStringExtra("CODE");
+            //Toast.makeText(this,code.toString(), 10);
+            String[] split = code.split("-");
+            String imeString = split[0];
+            String attackString = split[1];
+            String defenseString = split[2];
+            int attackSet =  Integer.parseInt(attackString);
+            int defenseSet =  Integer.parseInt(defenseString);
+            name.setText(imeString);
+            attack.setText(String.valueOf(attackSet));
+            defense.setText(String.valueOf(defenseSet));
+        }
     }
 }

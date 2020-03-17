@@ -2,8 +2,10 @@ package com.example.vaja1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,8 @@ public class InfoActivity extends AppCompatActivity {
                 intent.putExtra("PRIIMEK", priimek);
                 intent.putExtra("MESTO", mesto);
                 setResult(2,intent);
+                Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(100);
                 finish();
             }
         });
