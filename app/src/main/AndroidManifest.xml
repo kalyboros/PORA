@@ -11,7 +11,8 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -24,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScanActivity"></activity>
+        <activity android:name=".PodatkiActivity"></activity>
+        <activity android:name=".ScanActivity" />
         <activity android:name=".VnosActivity" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".MainActivity">

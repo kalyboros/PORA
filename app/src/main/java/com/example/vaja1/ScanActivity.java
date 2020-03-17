@@ -15,6 +15,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -86,12 +87,22 @@ public class ScanActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            vibrator.vibrate(100);
-                            //textView.setText(qrCodes.valueAt(0).displayValue);
-                            Intent intent = new Intent();
-                            intent.putExtra("CODE", qrCodes.valueAt(0).displayValue);
-                            setResult(4,intent);
-                            finish();
+
+                            if((qrCodes.valueAt(0).displayValue).matches("(\\w+)-(\\d+)-(\\d+)")) {
+                                Intent intent = new Intent();
+                                intent.putExtra("CODE", qrCodes.valueAt(0).displayValue);
+                                setResult(4, intent);
+                                finish();
+                            }
+                            else {
+                                vibrator.vibrate(100);
+                                Context context = getApplicationContext();
+                                CharSequence text = "Napacen format";
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+                            }
                         }
                     });
                 }
